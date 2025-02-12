@@ -1,17 +1,104 @@
 package driver;
 import vehicle.*;
+import java.util.Scanner;
 import client.*;
 public class driver {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-
-		Vehicle[] array = getRandomVehicleArray(50);
+	
+	Vehicle[] vehicleArray;
+	
+	
+	System.out.println("Welcome to the Royal Rentals repository!");
+	System.out.print("\nSelect the scenario you would like to run"
+			+"\n\t 1: Standard with random vehicles"
+			+ "\n\t 2: Predefined Scenario"
+			+ "\n\t 3: Standard empty"
+			+ "\nYour choice (1-3): ");
+	
+	int choiceInt = verifyInt(1,3);
+	
+	//switch to initialize scenario
+	switch (choiceInt) {
+	
+	case 1:
+	//random vehicles
+		System.out.print("Enter number of vehicles you would like to generate (0-100): ");
 		
-		Vehicle[] arrayDT = getArrayForType("EC");
+		choiceInt = verifyInt(1,100);
+		vehicleArray = getRandomVehicleArray(choiceInt);
+		break;
+	
+	case 2:
+	//predefined	
+		
+		//create predefined vehicles
+		DieselTruck dT1 = new DieselTruck("Ford","Super Duty", 2015, 3000.50, 40);
+		DieselTruck dT2 = new DieselTruck("Subaru","Super Duty", 2023, 4000.5, 25);
+		DieselTruck dT3 = new DieselTruck("Dodge","Super Duty", 2008, 3500, 15);
+		
+		GasTruck gT1 = new GasTruck("Ford","Super Duty", 2001, 2500);
+		GasTruck gT2 = new GasTruck("Ram","Super Duty", 1995, 3500);
+		GasTruck gT3 = new GasTruck("Dodge","Super Duty", 2010, 3050);
+		
+		ElectricTruck eT1 = new ElectricTruck("Tesla","Cybertruck", 2024, 3050, 250);
+		ElectricTruck eT2 = new ElectricTruck("Tesla","Cybertruck", 2025, 2500, 300);
+		ElectricTruck eT3 = new ElectricTruck("Tesla","Cybertruck", 2025, 2500, 300);
+		
+		GasCar gC1 = new GasCar("Subaru", "Outback", 2020, 4);
+		GasCar gC2 = new GasCar("Hundai", "hatchback", 2015, 2);
+		GasCar gC3 = new GasCar("Honda", "Accord", 2005, 4);
+		
+		ElectricCar eC1 = new ElectricCar("Tesla", "X", 2017, 4, 200);
+		ElectricCar eC2 = new ElectricCar("Tesla", "Y", 2020, 4, 250);
+		ElectricCar eC3 = new ElectricCar("Tesla", "Z", 2021, 4, 225);
+	
+		
+		Client c1 = new Client("Ray Manchester");
+		Client c2 = new Client("Henry Hart");
+		Client c3 = new Client("Jasper Dunlop");
 		
 		
+		//display toString of each vehicle
+		Vehicle.checkArray();
+		
+		//display clients
+		Client.readArray();
+		
+		//test equals
+		System.out.println("\nCompare two objects of different class \nResults: " + dT1.equals(eC1));
+		System.out.println("\nCompare two objects of same class with different attributes \nResults: " + dT1.equals(dT2));
+		System.out.println("\nCompare two objects of same class with same attributes \nResults: " + eT2.equals(eT3));
+		
+		//the getArrayForType calls upon the master array that all vehicles are stored into
+		//within the vehicle class. The method parses the array and creates a copy array for the 
+		//specified type
+		Vehicle[] dieselTruckArray = getArrayForType("DT");
+		Vehicle[] ElectricTruckArray = getArrayForType("ET");
+		Vehicle[] gasTruckArray = getArrayForType("GT");
+		Vehicle[] gasCarArray = getArrayForType("GC");
+		Vehicle[] electricCarArray = getArrayForType("EC");
+		
+		//prove arrays function
+		System.out.println("First vehicle in each array: ");
+		System.out.println(dieselTruckArray[0]);
+		System.out.println(ElectricTruckArray[0]);
+		System.out.println(gasTruckArray[0]);
+		System.out.println(gasCarArray[0]);
+		System.out.println(electricCarArray[0]);
+		
+		//get largest truck
+		System.out.println("\nGet largest truck method:\n" +
+				getLargestCapacityTruck("DT").toString());
+		
+		break;
+	
+	case 3:
+	break;
+	
+	}
 	
 	
 	
@@ -169,7 +256,52 @@ public class driver {
 			return newArray;
 			
 		}
+		
 	}
+	//for input verification
+		public static int verifyInt(){
+			Scanner kb = new Scanner(System.in);
+			int result;
+			
+			while (true){
+			if (kb.hasNextInt()) {
+				result = kb.nextInt();
+				kb.close();
+				return result;
+				}
+			else {
+				System.out.println("Input must be an Integer");
+				kb.next();
+				}
+				
+			} 
+		
+		}//end of method
+		
+		public static int verifyInt(int start, int end) {
+			Scanner kb = new Scanner(System.in);
+			int result;
+			
+			while (true){
+			if (kb.hasNextInt()) {
+				result = kb.nextInt();
+				
+				if (result >= start && result <= end) {
+					return result;
+				}
+				else
+					System.out.print("Must pick between (" + start +"-"+ end + "): ");
+			
+				}
+			else {
+				System.out.print("Input must be proper!"
+						+ "\nYour choice (" + start +"-"+ end + "): ");
+				kb.next();
+				}
+				
+			} 
+
+		}//end of method
 	
-	
+		
 }
