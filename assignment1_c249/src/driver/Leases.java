@@ -1,18 +1,24 @@
+/*
+--------------------------------------------------------------
+Assignment 1
+Joshua Graham 40285958
+--------------------------------------------------------------
+*/
 package driver;
-import client.*;
-import vehicle.*;
+
 
 public class Leases {
-
+	
+	//leases stored in this static array
 	private static Leases[] leaseArray = new Leases[50];
 	private static int leasesCount = 0;
 	
-	private Client client;
-	private Vehicle vehicle;
+	private String clientID;
+	private String plate;
 	
-	public Leases(Client client, Vehicle vehicle) {
-		this.client = client;
-		this.vehicle = vehicle;
+	public Leases(String clientID, String plate) {
+		this.clientID = clientID;
+		this.plate = plate;
 		
 		if (leasesCount < leaseArray.length) {
 			leaseArray[leasesCount] = this;
@@ -24,12 +30,12 @@ public class Leases {
 	}
 	
 	//returns vehicle from client
-	public static void removeLease(Client client, Vehicle vehicle) {
+	public static void removeLease(String clientID, String plate) {
 		
 		//checks array for client
 		for (int i = 0; i < leaseArray.length; i++) {
 			
-			if (leaseArray[i].client.equals(client) && leaseArray[i].vehicle.equals(vehicle)){
+			if (leaseArray[i].clientID.equals(clientID) && leaseArray[i].plate.equals(plate)){
 				
 				//shifts every value passed the desired client to the left
 				//which will remove the desired client
@@ -48,7 +54,8 @@ public class Leases {
 	}
 	
 	public String toString() {
-		return this.client.toString() + "\n" + this.vehicle.toString();
+		return "Client Id: " + this.clientID + "\nLicense Plate: " + this.plate;
+
 	}
 	
 	public static void showAllLeases() {
@@ -56,17 +63,17 @@ public class Leases {
 		for (int i = 0; i < leaseArray.length; i++) {
 			
 			if (leaseArray[i] != null)
-			System.out.println(leaseArray[i].client.toString() + "\n" + leaseArray[i].vehicle.toString());
+			System.out.println(leaseArray[i].toString());
 		}
 	}
 	
-	public static void showLeases(Client client) {
+	public static void showLeases(String clientID) {
 		
 		for (int i = 0; i < leaseArray.length; i++) {
 			
-			if (leaseArray[i] != null && leaseArray[i].client.equals(client))
-			System.out.println(leaseArray[i].client.toString() + "\n" + leaseArray[i].vehicle.toString());
+			if (leaseArray[i] != null && leaseArray[i].clientID.equals(clientID))
+			System.out.println(leaseArray[i].toString());
 		}
-	}
 	
-}
+	}
+	}

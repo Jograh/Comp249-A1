@@ -1,3 +1,9 @@
+/*
+--------------------------------------------------------------
+Assignment 1
+Joshua Graham 40285958
+--------------------------------------------------------------
+*/
 package client;
 
 public class Client {
@@ -7,18 +13,24 @@ public class Client {
 	private static int clientCount = 0;
 	
 	
+
+	
 	public Client(String name) {
 		
 		String tempID = "";
 		
-		for (int i = 0; i < 8; i++) {
+		boolean isValid = false;
+		
+		while (isValid == false) {
+		
+			for (int i = 0; i < 8; i++) {
 			
 			//generates random character
 			int random = (int) (Math.random() * 62);  //62 possible characters (26 lowercase, 26 uppercase, 10 digits)
 	        char randomChar;
 
 	        if (random < 10) {
-	            randomChar = (char) (random + 48);  //Digits '0' to '9' (ASCII 48-57)
+	            randomChar = (char) (random + 48);  //Digits 0 to 9 (ASCII 48-57)
 	        } else if (random < 36) {
 	            randomChar = (char) (random - 10 + 65);  //Uppercase 'A' to 'Z' (ASCII 65-90)
 	        } else {
@@ -26,6 +38,24 @@ public class Client {
 	        }
 	        
 	        tempID = tempID + randomChar;
+			}
+			//second loop to verify the generate id is not already in use.
+			//loop checks for a duplicate id and breaks if done
+			//if broken isValid2 will be set to false and the while loop will run again
+			boolean isValid2 = true;
+				
+			for (int i = 0; i < clientArray.length; i++) {
+					
+					if (clientArray[i]!=null) {
+						if (tempID.equals(clientArray[i].clientID)) {
+							isValid2 = false;
+							break;
+						}
+
+					}		
+				}
+			if (isValid2)
+				isValid = true;
 		}
 		
 		this.clientID = tempID;
@@ -58,12 +88,24 @@ public class Client {
 		this(client.name, client.clientID);
 	}
 	
-	public static void removeClient(Client client) {
+	public static void editClient(String ID, String name) {
+		//finds client
+		for (int i = 0; i < clientArray.length; i++) {
+			if (clientArray[i] != null && clientArray[i].getCliendID().equals(ID)) {
+				removeClient(ID);
+				Client client = new Client(name, ID);
+				break;
+			}
+		}
+	}
+	
+	
+	public static void removeClient(String ID) {
 		
 		//checks array for client
 		for (int i = 0; i < clientArray.length; i++) {
 			
-			if (clientArray[i].equals(client)){
+			if (clientArray[i].getCliendID().equals(ID)){
 				
 				//shifts every value passed the desired client to the left
 				//which will remove the desired client
@@ -74,6 +116,7 @@ public class Client {
 				}
 				//clear last element
 				clientArray[clientArray.length - 1] = null;
+				clientCount--;
 				break;
 
 			}
@@ -125,6 +168,16 @@ public class Client {
 		for (int i = 0; i < clientArray.length; i++)
 			if (clientArray[i] != null)
 			System.out.println(clientArray[i]);
+	}
+	
+	//method
+	public static boolean clientExists(String clientID) {
+		
+		for (int i =0; i < clientArray.length; i++) {
+			if (clientArray[i] != null && clientArray[i].clientID.equals(clientID))
+				return true;
+		}
+		return false;
 	}
 	
 }

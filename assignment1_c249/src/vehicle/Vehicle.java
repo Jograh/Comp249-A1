@@ -1,13 +1,21 @@
+/*
+--------------------------------------------------------------
+Assignment 1
+Joshua Graham 40285958
+--------------------------------------------------------------
+*/
 package vehicle;
 
 public class Vehicle {
 
-	private String plateNumber, make, model;
 	
-	private int year;
 	
-	private static Vehicle[] vehicleArray = new Vehicle[100];
-	private static int vehicleCount = 0;
+	protected String plateNumber, make, model;
+	
+	protected int year;
+	
+	protected static Vehicle[] vehicleArray = new Vehicle[100];
+	protected static int vehicleCount = 0;
 	
 	
 	public Vehicle(String plateNumber, String make, String model, int year) {
@@ -71,14 +79,19 @@ public class Vehicle {
 		this.year = year;
 	}
 	
+	
+	
+	
+	
 	//removing vehicle
 	
-	public static void removeVehicle(Vehicle vehicle) {
+	
+	public static void removeVehicle(String plate) {
 		
 		for (int i = 0; i < vehicleArray.length; i++) {
 			
 			//find the vehicle
-			if (vehicleArray[i].equals(vehicle)){
+			if (vehicleArray[i].plateNumber.equals(plate)){
 				
 				//shifts every value passed the desired vehicle to the left
 				//which will remove the desired vehicle
@@ -89,10 +102,12 @@ public class Vehicle {
 				}
 				//clear last element
 				vehicleArray[vehicleArray.length - 1] = null;
+				vehicleCount--;
 				break;
 			}
 		}	
 	}//end of method
+	
 	
 	public static String nextPlate(char a, char b) {
 		//checks vehicle array
@@ -205,6 +220,7 @@ public class Vehicle {
 		System.out.println(" count: " + vehicleCount2);
 	}
 	
+	//used in predefined scenario
 	public static Vehicle[] getVehicleArray() {
 		
 		Vehicle[] tempArray = new Vehicle[100];
@@ -216,5 +232,15 @@ public class Vehicle {
 		return tempArray;
 	}
 	
+	
+	
+	//Used in the driver to check if a plate number is used.
+	public static boolean vehicleExists(String plateNumber) {
+		for (int i = 0; i < vehicleArray.length; i++) {
+			if (vehicleArray[i]!= null && vehicleArray[i].plateNumber.equals(plateNumber))
+				return true;
+		}
+		return false;
+	}
 
 }
